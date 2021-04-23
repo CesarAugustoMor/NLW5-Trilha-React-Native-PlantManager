@@ -1,21 +1,28 @@
-import React from 'react';
-import { Text } from 'react-native';
+import React, { useCallback } from 'react';
+import { useNavigation } from '@react-navigation/core';
 
-import { Container, Title, SubTitle, Button, Image } from './styles';
+import { Container, Title, SubTitle, Button, Image, Icon } from './styles';
 
 import wateringImg from '../../assets/watering.png';
 
 const Welcome: React.FC = () => {
+  const navigation = useNavigation();
+
+  const handleStart = useCallback(() => {
+    navigation.navigate('UserIdentification');
+  }, [navigation]);
   return (
     <Container>
-      <Title>Gerencie{'\n'} suas plantas de forma fácil</Title>
-      <Image source={wateringImg} />
+      <Title>
+        Gerencie{'\n'} suas plantas de{'\n'} forma fácil
+      </Title>
+      <Image source={wateringImg} resizeMode="contain" />
       <SubTitle>
         Não esqueça mais de regar suas plantas. Nós cuidamos de lembrar você
         sempre que precisar.
       </SubTitle>
-      <Button activeOpacity={0.7}>
-        <Text>Avançar</Text>
+      <Button activeOpacity={0.7} onPress={handleStart}>
+        <Icon name="chevron-right" />
       </Button>
     </Container>
   );

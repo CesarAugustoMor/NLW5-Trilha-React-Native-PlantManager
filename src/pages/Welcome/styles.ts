@@ -1,11 +1,15 @@
 import styled from 'styled-components/native';
+import { Dimensions } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 
 import colors from '../../styles/colors';
+import fonts from '../../styles/fonts';
 
 export const Container = styled.SafeAreaView`
   flex: 1;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
+  padding: 20px;
 `;
 
 export const Title = styled.Text`
@@ -17,33 +21,34 @@ export const Title = styled.Text`
   font-weight: bold;
   text-align: center;
   color: ${colors.heading};
+  font-family: ${fonts.heading};
+  line-height: 38px;
 `;
 
 export const SubTitle = styled.Text`
-  margin-left: 40px;
-  margin-right: 40px;
-
+  padding: 0 32px;
   font-size: 17px;
-  font-style: normal;
-  font-weight: 400;
   line-height: 25px;
-  letter-spacing: 0;
   text-align: center;
   color: ${colors.heading};
+  font-family: ${fonts.text};
 `;
 
 export const Button = styled.TouchableOpacity`
   width: 56px;
   height: 56px;
+  border-radius: 16px;
 
   background: ${colors.green};
   justify-content: center;
   align-items: center;
-  border-radius: 16px;
-  margin-bottom: 10px;
 `;
 
 export const Image = styled.Image`
-  width: 292px;
-  height: 284px;
+  height: ${Dimensions.get('window').width * 0.7}px;
+`;
+
+export const Icon = styled(Feather)`
+  font-size: 24px;
+  color: ${colors.white};
 `;
