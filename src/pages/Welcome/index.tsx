@@ -3,8 +3,6 @@ import { useNavigation } from '@react-navigation/core';
 
 import { Container, Title, SubTitle, Button, Image, Icon } from './styles';
 
-import wateringImg from '../../assets/watering.png';
-
 const Welcome: React.FC = () => {
   const navigation = useNavigation();
 
@@ -16,7 +14,7 @@ const Welcome: React.FC = () => {
       <Title>
         Gerencie{'\n'} suas plantas de{'\n'} forma fácil
       </Title>
-      <Image source={wateringImg} resizeMode="contain" />
+      <Image />
       <SubTitle>
         Não esqueça mais de regar suas plantas. Nós cuidamos de lembrar você
         sempre que precisar.

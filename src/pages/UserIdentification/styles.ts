@@ -42,7 +42,7 @@ export const Title = styled.Text`
   line-height: 32px;
   text-align: center;
   color: ${colors.heading};
-  font-family: ${fonts.heading};
+  font-family: ${fonts.heading600};
 `;
 
 export const Emoji = styled.Text`

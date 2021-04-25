@@ -28,7 +28,7 @@ export const Title = styled.Text`
   line-height: 30px;
   text-align: center;
   color: ${colors.heading};
-  font-family: ${fonts.heading};
+  font-family: ${fonts.heading600};
 `;
 
 export const SubTitle = styled.Text`

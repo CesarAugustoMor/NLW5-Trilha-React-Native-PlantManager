@@ -3,6 +3,7 @@ import AppLoading from 'expo-app-loading';
 import React from 'react';
 import {
   useFonts,
+  Jost_300Light,
   Jost_400Regular,
   Jost_500Medium,
   Jost_600SemiBold,
@@ -12,6 +13,7 @@ import Routes from './src/routes';
 
 export default function App() {
   const [fontsIsLoad] = useFonts({
+    Jost_300Light,
     Jost_400Regular,
     Jost_500Medium,
     Jost_600SemiBold,

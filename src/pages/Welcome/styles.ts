@@ -2,6 +2,8 @@ import styled from 'styled-components/native';
 import { Dimensions } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
+import WateringImg from '../../assets/watering.svg';
+
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 
@@ -21,7 +23,7 @@ export const Title = styled.Text`
   font-weight: bold;
   text-align: center;
   color: ${colors.heading};
-  font-family: ${fonts.heading};
+  font-family: ${fonts.heading600};
   line-height: 38px;
 `;
 
@@ -44,7 +46,7 @@ export const Button = styled.TouchableOpacity`
   align-items: center;
 `;
 
-export const Image = styled.Image`
+export const Image = styled(WateringImg)`
   height: ${Dimensions.get('window').width * 0.7}px;
 `;
 
