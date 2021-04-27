@@ -19,23 +19,13 @@ import {
 } from './styles';
 
 import colors from '../../styles/colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/core';
+import { Plant } from '../../types/Plant';
 
 interface Environment {
   key: string;
   title: string;
-}
-
-interface Plant {
-  id: number;
-  name: string;
-  about: string;
-  water_tips: string;
-  photo: string;
-  environments: string[];
-  frequency: {
-    times: number;
-    repeat_every: string;
-  };
 }
 
 const PlantSelect: React.FC = () => {
@@ -47,6 +37,9 @@ const PlantSelect: React.FC = () => {
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(true);
   const [isLoadingAll, setIsLoadingAll] = useState(false);
+  const [userName, setUserName] = useState('');
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     api
@@ -59,6 +52,14 @@ const PlantSelect: React.FC = () => {
       .then(response => {
         setEnvironments(response.data);
       });
+  }, []);
+
+  useEffect(() => {
+    AsyncStorage.getItem('@plantManager:userName').then(userName => {
+      if (userName) {
+        setUserName(userName);
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -122,6 +123,13 @@ const PlantSelect: React.FC = () => {
     [isLoadingAll]
   );
 
+  const handleSelectPlant = useCallback(
+    (plant: Plant) => {
+      navigation.navigate('PlantSave', { plant });
+    },
+    [navigation]
+  );
+
   if (loading) {
     return <Load />;
   }
@@ -129,18 +137,18 @@ const PlantSelect: React.FC = () => {
   return (
     <Container>
       <HeaderContainer>
-        <Header title="Olá," subTitle="César Augusto" />
+        <Header title="Olá," subTitle={userName} />
         <Title>Em qual ambiente</Title>
         <SubTitle>você quer colocar sua planta?</SubTitle>
       </HeaderContainer>
       <EnvironmentList>
         <FlatList
           data={environments}
+          keyExtractor={item => item.key}
           horizontal
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }: { item: Environment }) => (
             <EnvironmentButton
-              key={item.key}
               isActive={item.key === environmentSelected}
               onPress={() =>
                 handleEnvironmentSelected(
@@ -158,12 +166,16 @@ const PlantSelect: React.FC = () => {
           data={filteredPlants}
           showsVerticalScrollIndicator={false}
           numColumns={2}
+          keyExtractor={item => String(item.id)}
           onEndReachedThreshold={0.2}
           onEndReached={({ distanceFromEnd }) => {
             handleLoadMore(distanceFromEnd);
           }}
           renderItem={({ item }) => (
-            <PlantCardPrimary key={item.id} data={item} />
+            <PlantCardPrimary
+              onPress={() => handleSelectPlant(item)}
+              data={item}
+            />
           )}
           ListFooterComponent={
             loadingMore ? <ActivityIndicator color={colors.green} /> : <></>

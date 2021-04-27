@@ -4,17 +4,18 @@ import { SvgFromUri } from 'react-native-svg';
 
 import colors from '../../styles/colors';
 
-interface PlantCardPrimaryButtonProps extends RectButtonProps {
+import { Container, Content, Details, Title, TimeLabel, Time } from './styles';
+
+interface PlantCardSecondaryButtonProps extends RectButtonProps {
   data: {
     id: number;
     name: string;
     photo: string;
+    hour: string;
   };
 }
 
-import { Container, Content, Title } from './styles';
-
-const PlantCardPrimary: React.FC<PlantCardPrimaryButtonProps> = ({
+const PlantCardSecondary: React.FC<PlantCardSecondaryButtonProps> = ({
   data,
   ...rest
 }) => {
@@ -25,11 +26,15 @@ const PlantCardPrimary: React.FC<PlantCardPrimaryButtonProps> = ({
       locations={[0, 1]}
     >
       <Content {...rest}>
-        <SvgFromUri width={80} height={89} uri={data.photo} />
+        <SvgFromUri width={45} height={45} uri={data.photo} />
         <Title>{data.name}</Title>
+        <Details>
+          <TimeLabel>Regar às</TimeLabel>
+          <Time>{data.hour}</Time>
+        </Details>
       </Content>
     </Container>
   );
 };
 
-export default PlantCardPrimary;
+export default PlantCardSecondary;

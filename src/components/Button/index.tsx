@@ -3,14 +3,24 @@ import { TouchableOpacityProps } from 'react-native';
 
 import { Container, Text } from './styles';
 
-const Button: React.FC<TouchableOpacityProps> = ({
+interface ButtonProps extends TouchableOpacityProps {
+  isDisabled?: boolean;
+}
+
+const Button: React.FC<ButtonProps> = ({
   onPress,
   children,
   style,
+  isDisabled = false,
   ...rest
 }) => {
   return (
-    <Container onPress={onPress} {...rest}>
+    <Container
+      style={style}
+      isDisabled={isDisabled}
+      onPress={onPress}
+      {...rest}
+    >
       <Text>{children}</Text>
     </Container>
   );
