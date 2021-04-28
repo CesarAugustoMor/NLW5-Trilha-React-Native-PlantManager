@@ -56,3 +56,17 @@ export const Time = styled.Text`
 
   color: ${colors.body};
 `;
+
+export const ButtonRemove = styled(RectButton)`
+  width: 124px;
+  height: 80px;
+  margin-top: 10px;
+  border-radius: 20px;
+
+  background-color: ${colors.red};
+
+  justify-content: center;
+  align-items: center;
+  margin-left: -32px;
+  padding-left: 24px;
+`;

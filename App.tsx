@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import AppLoading from 'expo-app-loading';
-import React from 'react';
+import { addNotificationReceivedListener } from 'expo-notifications';
+import React, { useEffect } from 'react';
 import {
   useFonts,
   Jost_300Light,
@@ -10,6 +11,7 @@ import {
 } from '@expo-google-fonts/jost';
 
 import Routes from './src/routes';
+import { Plant } from './src/types/Plant';
 
 export default function App() {
   const [fontsIsLoad] = useFonts({
@@ -18,6 +20,14 @@ export default function App() {
     Jost_500Medium,
     Jost_600SemiBold,
   });
+
+  useEffect(() => {
+    const subscription = addNotificationReceivedListener(async notification => {
+      const plant = notification.request.content.data.plant as Plant;
+    });
+
+    subscription.remove();
+  }, []);
 
   if (!fontsIsLoad) {
     return <AppLoading />;

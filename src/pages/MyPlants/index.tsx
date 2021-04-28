@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   formatDistance,
   getHours,
@@ -7,11 +7,11 @@ import {
   setMinutes,
 } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 
 import PlantCardSecondary from '../../components/PlantCardSecondary';
 import Header from '../../components/Header';
-import { loadPlant } from '../../libs/storage';
+import { loadPlant, removePlant } from '../../libs/storage';
 
 import { Plant } from '../../types/Plant';
 
@@ -27,6 +27,8 @@ import {
 } from './styles';
 
 import colors from '../../styles/colors';
+import Load from '../../components/Load';
+import { Alert } from 'react-native';
 
 const MyPlants: React.FC = () => {
   const [plants, setPlants] = useState<Plant[]>([]);
@@ -42,11 +44,37 @@ const MyPlants: React.FC = () => {
 
       setPlants(plants);
       setNexWatered(
-        `Não se esqueça de regar a ${plants[0].name} à ${nextTime} horas`
+        `Não se esqueça de regar a ${plants[0].name} à ${nextTime}`
       );
       setLoading(false);
     });
   }, [ptBR]);
+
+  const handleRemove = useCallback(
+    (plant: Plant) => {
+      Alert.alert('Remover', `Deseja remover a ${plant.name}?`, [
+        { text: 'Não 🙏', style: 'cancel' },
+        {
+          text: 'Sim 😭',
+          style: 'default',
+          onPress: async () => {
+            try {
+              await removePlant(plant.id);
+
+              setPlants(old => old.filter(item => item.id !== plant.id));
+            } catch (error) {
+              Alert.alert('Erro!', 'Não foi possível remover a planta! 😭');
+            }
+          },
+        },
+      ]);
+    },
+    [Alert]
+  );
+
+  if (loading) {
+    return <Load />;
+  }
 
   return (
     <Container>
@@ -68,7 +96,14 @@ const MyPlants: React.FC = () => {
             data={plants}
             keyExtractor={item => String(item.id)}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => <PlantCardSecondary data={item} />}
+            renderItem={({ item }) => (
+              <PlantCardSecondary
+                handleRemove={() => {
+                  handleRemove(item);
+                }}
+                data={item}
+              />
+            )}
           />
         </PlantsList>
       </Plants>

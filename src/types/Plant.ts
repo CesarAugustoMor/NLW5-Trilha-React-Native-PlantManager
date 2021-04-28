@@ -9,6 +9,6 @@ export interface Plant {
   hour?: string;
   frequency: {
     times: number;
-    repeat_every: string;
+    repeat_every: 'day' | 'week';
   };
 }
